@@ -11,11 +11,56 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
     <link href="<?= base_url('assets/css/sb-admin-2.min.css')?>" rel="stylesheet">
+<style>
+.file-upload {
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+}
 
+.file-upload__input {
+  display: none;
+}
+
+.file-upload__button {
+  -webkit-appearance: none;
+  background: #fff;
+  border: 1px solid #C0C0C0;
+  border-radius: 8px;
+  outline: none;
+  padding: 0.5em 0.8em;
+  margin-right: 15px;
+  color: #0F56B3;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.file-upload__button:active {
+  background: #C0C0C0;
+}
+
+.file-upload__label {
+  max-width: 250px;
+  font-size: 0.95em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.labelnya{
+    width: 535px;
+    padding-top: 7px;
+    padding-left: 7px;
+    padding-bottom: 7px;
+  background: #EFEFEF;
+  border-radius: 5px;
+}
+</style>
 </head>
 <body>
     <div class="header3">
-        <img src="<?= base_url('assets/img/logo.png') ?>" alt="logo" class="lg1">
+    <a href="<?= base_url('dashboard') ?>"><img src="<?= base_url('assets/img/Dharma_wanita.png') ?>" alt="logo" class="lg1"></a>
         <img src="<?= base_url('assets/img/header.png') ?>" alt="logo" class="lg2">
         <img src="<?= base_url('assets/img/headline.png') ?>" alt="logo" class="lg3">
         <img src="<?= base_url('assets/img/banten.png') ?>" alt="logo" class="lg4">
@@ -27,7 +72,7 @@
         </div>
        
     </div>
-    <form action="<?= base_url('dashboard/prosessubmit') ?>" method="POST">
+    <form action="<?= base_url('dashboard/prosessubmit') ?>" method="POST" enctype="multipart/form-data">
     <div class="bio2">
             <div class="foto2">
                 <p style="font-family: IBM Plex Sans;font-style: normal;font-weight: 600;font-size: 20px;color: #000000;"><img src="<?= base_url('assets/img/Ellipse.png') ?>" alt=""> &nbsp;Data Personal</p>
@@ -41,15 +86,15 @@
                     <hr style="border: 1px solid black;">
                     <div class="nama">
                         <input type="text" class="form-control" placeholder="Tempat Lahir" name="tempatlahir">     &nbsp;&nbsp;
-                        <input type="text" class="form-control" placeholder="Tanggal" name="tanggal" required>    &nbsp;-&nbsp;
-                        <input type="text" class="form-control" placeholder="Bulan" name="bulan" required>   &nbsp;-&nbsp;
-                        <input type="text" class="form-control" placeholder="Tahun" name="tahun" required>    
+                        <input type="number" class="form-control" placeholder="Tanggal" name="tanggal" required>    &nbsp;-&nbsp;
+                        <input type="number" class="form-control" placeholder="Bulan" name="bulan" required>   &nbsp;-&nbsp;
+                        <input type="number" class="form-control" placeholder="Tahun" name="tahun" required>    
                     </div>
                     <hr style="border: 1px solid black;">
                     <input type="text" class="form-control" placeholder="Alamat Tempat Tinggal" name="alamat" required>     &nbsp;&nbsp;
                     <div class="nama">
-                        <input type="text" class="form-control" placeholder="RT" name="rt" required>  &nbsp;/&nbsp;  
-                        <input type="text" class="form-control input-sm" placeholder="RW" name="rw" required>   &nbsp;&nbsp;  
+                        <input type="number" class="form-control" placeholder="RT" name="rt" required>  &nbsp;/&nbsp;  
+                        <input type="number" class="form-control input-sm" placeholder="RW" name="rw" required>   &nbsp;&nbsp;  
                         <input type="text" class="form-control" placeholder="No Telp" name="notelp" required>
                     </div>
                     <br>
@@ -58,6 +103,13 @@
                         <input type="text" class="form-control input-sm" placeholder="Kecamatan" name="kecamatan" required>   &nbsp;&nbsp;  
                         <input type="text" class="form-control" placeholder="Kabupaten" name="kabupaten" required>
                     </div>
+                    <div class="file-upload mt-4">
+                        <input class="file-upload__input" type="file" name="image" id="myFile" required>
+                        <button class="file-upload__button" type="button">+ &nbsp; Unggah foto</button>
+                        <div class="labelnya"><span class="file-upload__label"></span></div>
+                    </div>
+                    <p class="mt-2" style="font-size:12px;  font-family: IBM Plex Sans;">Unggahlah foto terbaru Anda menggunakan seragam Dharma wanita Persatuan. Ukuran foto tidak boleh lebih dari 2 Mb</p>
+                    <p class="mt-4" style="font-size:12px;text-align:center;font-family: IBM Plex Sans;">Seluruh data yang tertera pada formulir ini adalah benar dan sesuai dengan Kartu Tanda Penduduk resmi negara Republik Indonesia dan akan digunakan untuk kepentingan Dharma Wanita Persatuan Republik Indonesia.</p>
             </div>
 
             <div class="datadiri2">
@@ -66,7 +118,59 @@
                 <div class="suaminya py-2 px-2">
                     <input type="text" class="form-control my-2" placeholder="Nama Depan Suami" name="namadepansuami" required>  
                     <input type="text" class="form-control my-2" placeholder="Nama Belakang Suami" name="namabelakangsuami" required>  
-                    <input type="text" class="form-control my-2" placeholder="Kedinasan / OPD" name="kedinasan" required>  
+                    <!-- <input type="text" class="form-control my-2" placeholder="Kedinasan / OPD" name="kedinasan" required>   -->
+                    <select class="custom-select" name="kedinasan" required>
+                      <option selected>Kedinasan / OPD</option>
+                      <option value="Biro Administrasi Rumah Tangga Pimpinan">Biro Administrasi Rumah Tangga Pimpinan</option>
+                      <option value="Biro Infrastruktur dan Sumber Daya Alam">Biro Infrastruktur dan Sumber Daya Alam</option>
+                      <option value="Biro Administrasi Pembangunan Daerah">Biro Administrasi Pembangunan Daerah</option>
+                      <option value="Biro Perekonomian">Biro Perekonomian</option>
+                      <option value="Biro Pemerintahan">Biro Pemerintahan</option>
+                      <option value="Biro Hukum">Biro Hukum</option>
+                      <option value="Biro Organisasi">Biro Organisasi</option>
+                      <option value="Biro Kesejahteraan Rakyat">Biro Kesejahteraan Rakyat</option>
+                      <option value="Biro Umum">Biro Umum</option>
+                      <option value="DPRD PROVINSI BANTEN">DPRD PROVINSI BANTEN</option>
+                      <option value="Dinas Perpustakaan dan Kearsipan">Dinas Perpustakaan dan Kearsipan</option>
+                      <option value="Dinas Pemberdayaan Perempuan, Perlindungan Anak, Kependudukan dan Keluarga Berencana">Dinas Pemberdayaan Perempuan, Perlindungan Anak, Kependudukan dan Keluarga Berencana</option>
+                      <option value="Dinas Lingkungan Hidup dan Kehutanan">Dinas Lingkungan Hidup dan Kehutanan</option>
+                      <option value="Dinas Ketahanan Pangan">Dinas Ketahanan Pangan</option>
+                      <option value="Dinas Perumahan Rakyat dan Kawasan Permukiman">Dinas Perumahan Rakyat dan Kawasan Permukiman</option>
+                      <option value="Dinas Pekerjaan Umum dan Penataan Ruang">Dinas Pekerjaan Umum dan Penataan Ruang</option>
+                      <option value="Dinas Kesehatan">Dinas Kesehatan</option>
+                      <option value="Dinas Pendidikan dan Kebudayaan">Dinas Pendidikan dan Kebudayaan</option>
+                      <option value="Dinas Kepemudaan dan Olah Raga">Dinas Kepemudaan dan Olah Raga</option>
+                      <option value="Dinas Pertanian">Dinas Pertanian</option>
+                      <option value="Dinas Kelautan dan Perikanan">Dinas Kelautan dan Perikanan</option>
+                      <option value="Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu">Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu</option>
+                      <option value="Dinas Pemberdayaan Masyarakat dan Desa">Dinas Pemberdayaan Masyarakat dan Desa</option>
+                      <option value="Dinas Komunikasi, Informatika, Statistik dan Persandian">Dinas Komunikasi, Informatika, Statistik dan Persandian</option>
+                      <option value="Dinas Perhubungan">Dinas Perhubungan</option>
+                      <option value="Dinas Energi dan Sumberdaya Mineral">Dinas Energi dan Sumberdaya Mineral</option>
+                      <option value="Dinas Perindustrian dan Perdagangan">Dinas Perindustrian dan Perdagangan</option>
+                      <option value="Dinas Pariwisata">Dinas Pariwisata</option>
+                      <option value="Dinas Sosial">Dinas Sosial</option>
+                      <option value="Dinas Tenaga Kerja dan Transmigrasi">Dinas Tenaga Kerja dan Transmigrasi</option>
+                      <option value="Dinas Koperasi, Usaha Kecil dan Menengah">Dinas Koperasi, Usaha Kecil dan Menengah</option>
+                      <option value="Inspektorat">Inspektorat</option>
+                      <option value="Badan Pengelolaan Keuangan dan Aset Daerah">Badan Pengelolaan Keuangan dan Aset Daerah</option>
+                      <option value="Badan Kepegawaian Daerah">Badan Kepegawaian Daerah</option>
+                      <option value="Badan Pengembangan Sumber Daya Manusia">Badan Pengembangan Sumber Daya Manusia</option>
+                      <option value="Badan Kesatuan Bangsa dan Politik">Badan Kesatuan Bangsa dan Politik</option>
+                      <option value="Badan Pendapatan Daerah">Badan Pendapatan Daerah</option>
+                      <option value="Badan Perencanaan Pembangunan Daerah">Badan Perencanaan Pembangunan Daerah</option>
+                      <option value="Badan Penanggulangan Bencana Daerah">Badan Penanggulangan Bencana Daerah</option>
+                      <option value="Badan Penghubung">Badan Penghubung</option>
+                      <option value="Satuan Polisi Pamong Praja (SATPOLPP) Provinsi Banten">Satuan Polisi Pamong Praja (SATPOLPP) Provinsi Banten</option>
+                      <option value="Rumah Sakit Umum Daerah">Rumah Sakit Umum Daerah</option>
+                      <option value="Rumah Sakit Umum Malimping">Rumah Sakit Umum Malimping</option>
+                    </select>
+                    <select class="custom-select mt-2" name="tingkat" required>
+                      <option selected>Tingkat Wilayah</option>
+                      <option value="Provinsi">Provinsi</option>
+                      <option value="Kabupaten Kota">Kabupaten Kota</option>
+                      <option value="Kecamatan">Kecamatan</option>
+                    </select>
                 </div>
                 </div>
                 <div class="akun">
@@ -77,14 +181,44 @@
                 </div>
                 </div>
                 <div class="isian">
-                Seluruh data yang tertera pada formulir ini adalah benar dan sesuai dengan Kartu Tanda Penduduk resmi negara Republik Indonesia.
                 </div>
                     <button class="btn btn-secondary" type="submit" style="width: 304px; margin-bottom:100px">
-                        Submit
+                    ✓  Submit
                     </button>
             </div>
         </div>
 </form>
-    
+<script>
+    Array.prototype.forEach.call(
+  document.querySelectorAll(".file-upload__button"),
+  function(button) {
+    const hiddenInput = button.parentElement.querySelector(
+      ".file-upload__input"
+    );
+    const label = button.parentElement.querySelector(".file-upload__label");
+    const defaultLabelText = "Silahkan unggah foto";
+
+    // Set default text for label
+    label.textContent = defaultLabelText;
+    label.title = defaultLabelText;
+
+    button.addEventListener("click", function() {
+      hiddenInput.click();
+    });
+
+    hiddenInput.addEventListener("change", function() {
+      const filenameList = Array.prototype.map.call(hiddenInput.files, function(
+        file
+      ) {
+        return file.name;
+      });
+
+      label.textContent = filenameList.join(", ") || defaultLabelText;
+      label.title = label.textContent;
+    });
+  }
+);
+
+</script>
 </body>
 </html>

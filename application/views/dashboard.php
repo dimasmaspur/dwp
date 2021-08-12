@@ -15,7 +15,7 @@
 </head>
 <body>
     <header>
-        <img src="<?= base_url('assets/img/logo.png') ?>" alt="logo" class="logo1">
+        <img src="<?= base_url('assets/img/Dharma_wanita.png') ?>" alt="logo" class="logo1">
         <img src="<?= base_url('assets/img/header.png') ?>" alt="logo" class="logo2">
         <img src="<?= base_url('assets/img/headline.png') ?>" alt="logo" class="logo3">
     </header>
@@ -25,6 +25,7 @@
     </div>
     <div class="add mt-2 ml-4">
        <a href="<?= base_url('dashboard/form') ?>" class="btn btn-primary">Tambah Data Anggota</a>    
+       <a href="<?= base_url('dashboard/logout') ?>" class="btn btn-danger">Logout</a>    
     </div>
 
     <div class="tabelnya">

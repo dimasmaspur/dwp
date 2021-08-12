@@ -25,7 +25,7 @@
 
 .sidenav {
     height: 100%;
-    background-color: #4e73df;
+    background-color: #d38b6d;
     overflow-x: hidden;
     padding-top: 20px;
 }
@@ -91,8 +91,9 @@
   
     <div class="sidenav">
          <div class="login-main-text">
-            <h2>Dashboard Admin</h2>
-            <p>Silahkan masuk untuk mengakses.</p>
+            <img src="<?= base_url('assets/img/Dharma_wanita.png') ?>" alt="" width="200px"  style="margin-left:90px;">
+            <img src="<?= base_url('assets/img/header.png') ?>" alt="logo" class="lg2 mt-4"  style="margin-left:30px;margin-right:30px;"><br>
+            <img src="<?= base_url('assets/img/headline.png') ?>" alt="logo" class="lg3"  style="margin-left:30px;">
          </div>
       </div>
       <div class="main">
@@ -107,7 +108,7 @@
                      <label>Password</label>
                      <input type="password" name="password" class="form-control" placeholder="Password" required>
                   </div>
-                  <button type="submit" class="btn btn-black">Login</button>
+                  <button type="submit" class="btn btn-info">Login</button>
                </form>
             </div>
          </div>

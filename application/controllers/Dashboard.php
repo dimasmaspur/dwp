@@ -19,9 +19,11 @@ class Dashboard extends CI_Controller {
           'username' => $this->session->userdata('username'),
           'title' => 'Dashboard | Home'
         ];
-
-        $getUser['data'] = $this->Crud->readData('*','data')->result();
-        $getUser['count'] = $this->Crud->readData('*','data')->num_rows();
+        $where = [
+          'tingkat'=> $this->session->userdata('tingkat')
+        ];
+        $getUser['data'] = $this->Crud->readData('*','data',$where)->result();
+        $getUser['count'] = $this->Crud->readData('*','data',$where)->num_rows();
         if ($getUser)
         {
             $this->load->view('dashboard',$getUser);
@@ -116,23 +118,44 @@ class Dashboard extends CI_Controller {
       'namadepansuami' => $this->input->post('namadepansuami'),
       'namabelakangsuami' => $this->input->post('namabelakangsuami'),
       'kedinasan' => $this->input->post('kedinasan'),
+      'tingkat' => $this->input->post('tingkat'),
       'username' => $this->input->post('username'),
       'password' => $this->input->post('password'),
     ];
 
-    $createUser = $this->Crud->createData('data',$dataCreate);
+    $config = array(
+      'upload_path' => "./uploads/",             //path for upload
+      'allowed_types' => "gif|jpg|png|jpeg",   //restrict extension
+      'max_size' => '10000',
+      'max_width' => '10242',
+      'max_height' => '768323',
+      'file_name' => 'dwp_'.date('ymdhis')
+      );
+
+      $this->load->library('upload',$config);
+
+
+      if($this->upload->do_upload('image')) 
+          {
+              $data = array('upload_data' => $this->upload->data());
+              $path = $config['upload_path'].'/'.$data['upload_data']['orig_name'];
+              $filename = $data['upload_data']['orig_name'];
+              $dataCreate['image'] = $filename;
+              $createUser = $this->Crud->createData('data',$dataCreate);
                 
-    if($createUser){
-      echo ("<script LANGUAGE='JavaScript'>
-      window.alert('Berhasil Menambahkan Data');
-      window.location.href='".base_url('dashboard')."';
-      </script>");
-    }else{
-      echo ("<script LANGUAGE='JavaScript'>
-      window.alert('Gagal Menambahkan Data');
-      window.location.href='".base_url('dashboard/form')."';
-      </script>");
-    }
+              if($createUser){
+                echo ("<script LANGUAGE='JavaScript'>
+                window.alert('Berhasil Menambahkan Data');
+                window.location.href='".base_url('dashboard')."';
+                </script>");
+              }else{
+                echo ("<script LANGUAGE='JavaScript'>
+                window.alert('Gagal Menambahkan Data');
+                window.location.href='".base_url('dashboard/form')."';
+                </script>");
+              }
+          }
+   
   }
   public function prosesedit($id){
   
@@ -159,22 +182,57 @@ class Dashboard extends CI_Controller {
       'namadepansuami' => $this->input->post('namadepansuami'),
       'namabelakangsuami' => $this->input->post('namabelakangsuami'),
       'kedinasan' => $this->input->post('kedinasan'),
+      'tingkat' => $this->input->post('tingkat'),
       'username' => $this->input->post('username'),
       'password' => $this->input->post('password'),
     ];
 
-      $updateData = $this->Crud->updateData('data',$dataCreate,$where);
-      if($updateData){
-        echo ("<script LANGUAGE='JavaScript'>
-          window.alert('Berhasil Mengubah Data');
-          window.location.href='".base_url('dashboard')."';
-          </script>");
-      }else{
-        echo ("<script LANGUAGE='JavaScript'>
-          window.alert('Gagal Menambahkan Data');
-          window.location.href='".base_url('dashboard')."';
-          </script>");
-      }
+    $config = array(
+      'upload_path' => "./uploads/",             //path for upload
+      'allowed_types' => "gif|jpg|png|jpeg",   //restrict extension
+      'max_size' => '10000',
+      'max_width' => '10242',
+      'max_height' => '768323',
+      'file_name' => 'dwp_'.date('ymdhis')
+      );
+
+      $this->load->library('upload',$config);
+
+      if($this->upload->do_upload('image')) 
+          {
+              $data = array('upload_data' => $this->upload->data());
+              $path = $config['upload_path'].'/'.$data['upload_data']['orig_name'];
+              $filename = $data['upload_data']['orig_name'];
+              $dataCreate['image'] = $filename;
+              $updateData = $this->Crud->updateData('data',$dataCreate,$where);
+              if($updateData){
+                echo ("<script LANGUAGE='JavaScript'>
+                  window.alert('Berhasil Mengubah Data');
+                  window.location.href='".base_url('dashboard')."';
+                  </script>");
+              }else{
+                echo ("<script LANGUAGE='JavaScript'>
+                  window.alert('Gagal Menambahkan Data');
+                  window.location.href='".base_url('dashboard')."';
+                  </script>");
+              }
+          }
+        else{
+          $updateData = $this->Crud->updateData('data',$dataCreate,$where);
+          if($updateData){
+            echo ("<script LANGUAGE='JavaScript'>
+              window.alert('Berhasil Mengubah Data');
+              window.location.href='".base_url('dashboard')."';
+              </script>");
+          }else{
+            echo ("<script LANGUAGE='JavaScript'>
+              window.alert('Gagal Menambahkan Data');
+              window.location.href='".base_url('dashboard')."';
+              </script>");
+          }
+        }
+
+    
   }
   }
 
@@ -226,19 +284,11 @@ class Dashboard extends CI_Controller {
       return;
     }
     if(isset($cekLogin['token'])){
-      if($cekLogin['role'] == 'admin'){
         $this->session->set_userdata('token', $cekLogin['token']);
         $this->session->set_userdata('username', $username);
+        $this->session->set_userdata('tingkat', $cekLogin['tingkat']);
         $this->session->set_userdata('isLoginAdmin', true);
         return redirect(base_url('dashboard'));
-      }else{
-        $this->session->set_userdata('isLoginAdmin', true);
-        echo ("<script LANGUAGE='JavaScript'>
-        window.alert('You dont have access');
-        window.location.href='".base_url('dashboard/login')."';
-        </script>");
-        return;
-      }
     }
    
   }
